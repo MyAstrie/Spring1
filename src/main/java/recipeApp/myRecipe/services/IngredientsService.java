@@ -2,11 +2,14 @@ package recipeApp.myRecipe.services;
 
 import recipeApp.myRecipe.model.Ingredient;
 
+import java.util.Map;
 import java.util.Optional;
 
 public interface IngredientsService {
 
-    void add(Ingredient ingredient);
+    Ingredient add(Ingredient ingredient);
 
-    Optional<Ingredient> getRecipeForId(Long id);
+    Optional<Ingredient> getIngredientById(Long id);
+
+    Map<Long, Ingredient> getIngredients();
 }

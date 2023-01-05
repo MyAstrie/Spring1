@@ -2,37 +2,46 @@ package recipeApp.myRecipe.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+@Data
 @Entity
-@Getter
-@Setter
-@ToString
+@Validated
 @NoArgsConstructor
-public class Recipe {
+public class Recipe implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Valid
     private Long id;
 
-    @NotNull(message = "Названме рецепта не может быть пустым")
     @Column(unique = true, nullable = false)
+    @NotBlank(message = "Названме рецепта не может быть пустым")
+    @Valid
     private String name;
 
     @Positive(message = "Время готовки должно быть положительно")
+    @NotBlank(message = "Время готовки не может быть пустым")
+    @Valid
     private Integer timeToCook;
 
-    @NotNull
+    @NotBlank
+    @ElementCollection
+    @Valid
     private List<Ingredient> ingredients;
 
-    @NotNull
+    @NotBlank
     @ElementCollection
+    @Valid
     private List<String> steps;
 
     @Override

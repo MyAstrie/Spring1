@@ -2,31 +2,39 @@ package recipeApp.myRecipe.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 import java.util.Objects;
 
+
+@Data
 @Entity
-@Getter
-@Setter
-@ToString
+@Validated
 @NoArgsConstructor
-public class Ingredient {
+public class Ingredient implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Valid
     private Long id;
 
-    @NotNull(message = "Названме инградиента не может быть пустым")
+    @NotBlank(message = "Названме инградиента не может быть пустым")
+    @Valid
     private String name;
 
+    @NotBlank
     @Positive(message = "Количество инградиентов должно быть положительным")
+    @Valid
     private Integer quantity;
 
-    @NotNull(message = "Еденица измерения не может быть пустая")
+    @NotBlank(message = "Еденица измерения не может быть пустая")
+    @Valid
     private String measurementUnit;
 
     @Override
