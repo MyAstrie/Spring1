@@ -1,12 +1,18 @@
 package recipeApp.myRecipe.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import recipeApp.myRecipe.model.Ingredient;
 import recipeApp.myRecipe.services.impl.IngredientsServiceImpl;
 
+import javax.validation.Valid;
+import java.util.Map;
+import java.util.Optional;
+
 @RestController
+@ResponseBody
+@Validated
 @RequestMapping("/ingredients")
 @RequiredArgsConstructor
 public class IngredientsController {
@@ -18,11 +24,18 @@ public class IngredientsController {
         return "Страница ингредиента";
     }
 
-    @GetMapping("/info")
-    public IngredientsServiceImpl getInfo(){
-        return ingredientsServiceImpl;
+    @PostMapping
+    public Ingredient addProduct(@Valid @RequestBody Ingredient ingredient){
+        return ingredientsServiceImpl.add(ingredient);
     }
 
-    @GetMapping("/create")
-    public void create(){}
+    @GetMapping("{id}")
+    public Optional<Ingredient> findRecipeById(@PathVariable long id) {
+        return ingredientsServiceImpl.getIngredientById(id);
+    }
+
+    @GetMapping("/info")
+    public Map<Long, Ingredient> getRecipes(){
+        return ingredientsServiceImpl.getIngredients();
+    }
 }
